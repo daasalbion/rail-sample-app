@@ -22,3 +22,14 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+commands
+1) rails new rail-sample-app -d postgresql --skip-action-mailbox --skip-action-text --skip-spring --webpack=react -T --skip-turbolink
+2) configure your database.yml acordingly to your docker-compose
+3) generate basic model
+	rails g model Product cod:string name:string price:decimal --force
+	rails g model Client ruc:string name:string phonenumber:string email:string address:string --force
+	rails g model Invoice invoicenumber:string total:decimal client:references --force
+	rails g model InvoiceDetail invoice:references product:references cod:string cant:integer price:decimal --force
+4) rails db:create db:migrate db:seed
