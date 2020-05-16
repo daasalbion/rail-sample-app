@@ -24,6 +24,9 @@
     "ts-loader": "^7.0.4",
     "typescript": "^3.9.2"
   },
+  "scripts": {
+    "start": "./bin/webpack-dev-server --config=./webpack/development.js"
+  },
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3.11.0"
