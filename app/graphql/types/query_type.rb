@@ -7,9 +7,14 @@ module Types
     # resolver query example
     field :product, resolver: Queries::ProductQuery
     field :products, [Types::ProductType], null: false, description: 'List of products'
+    field :clients, [Types::ClientType], null: false, description: 'List of clients'
 
     def products
       ::Product.all
+      end
+
+    def clients
+      ::Client.all
     end
   end
 end

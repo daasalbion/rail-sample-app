@@ -3,7 +3,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 import {client} from "./ApolloClientProvider";
 import {ApolloProvider} from '@apollo/react-hooks';
-import Product from "./Product";
+import AppRouter from "./AppRouter/AppRouter";
 
 const App = () => {
     return (
@@ -11,10 +11,10 @@ const App = () => {
             <ApolloProvider client={client}>
                 <Jumbotron>
                     <h1 className="header">
-                        Welcome To React-Bootstrap TypeScript Example
+                        Rails, Graphql, React, Bootstrap, TypeScript Example
                     </h1>
-                    <Product/>
                 </Jumbotron>
+                <AppRouter></AppRouter>
             </ApolloProvider>
         </Container>
     );
