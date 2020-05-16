@@ -41,3 +41,23 @@ commands
     `bundle add graphql`
 6) setup grapqhl
     `rails generate graphql:install`
+7) create product example
+    `
+        mutation($cod: String!, $name: String!, $price:Int!) {
+          createProduct(input: {productInput: {
+            cod: $cod, name: $name, price: $price
+          }}) {
+            id,
+            name
+          }
+        }
+    `
+    `
+        {
+          "cod": "fsdfsdf",
+          "name": "Derlis Arguello",
+          "price": 10000
+        }
+    `
+8) bundle exec rails webpacker:install:typescript
+9) yarn add @types/react @types/react-dom
