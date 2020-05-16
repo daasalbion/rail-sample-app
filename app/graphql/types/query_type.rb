@@ -6,5 +6,10 @@ module Types
     # They will be entry points for queries on your schema.
     # resolver query example
     field :product, resolver: Queries::ProductQuery
+    field :products, [Types::ProductType], null: false, description: 'List of products'
+
+    def products
+      ::Product.all
+    end
   end
 end

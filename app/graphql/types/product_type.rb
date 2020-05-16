@@ -8,6 +8,7 @@ module Types
     field :id, ID, null: false, description: 'Id of the product'
     field :cod, String, null: false, description: 'Cod of the product'
     field :name, String, null: false, description: 'Name of the product'
+    field :price, Int, null: false, description: 'Price of the product'
 
   end
 end
