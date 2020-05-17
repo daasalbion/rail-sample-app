@@ -1,8 +1,9 @@
 import * as React from 'react'
-import {useQuery} from '@apollo/react-hooks';
+import {useMutation, useQuery} from '@apollo/react-hooks';
 import {gql} from "apollo-boost";
 import Table from "react-bootstrap/Table";
 import CreateProduct from "./Product/CreateProduct";
+import Button from "react-bootstrap/Button";
 
 const GET_PRODUCTS = gql`
     {
@@ -15,11 +16,33 @@ const GET_PRODUCTS = gql`
     }
 `;
 
+const DELETE_PRODUCT = gql`
+    mutation($id: ID!) {
+        deleteProduct(
+            input: {
+                id: $id
+        }) {
+            id,
+            name
+        }
+    }
+`;
+
 const Product = () => {
     const {loading, error, data} = useQuery(GET_PRODUCTS);
+    const [removeProduct, _] = useMutation(DELETE_PRODUCT);
 
     if (loading) return (<div>Loading...</div>);
-    if (error) return (<div>Sin datos</div>);
+    if (error) return (<div>No data</div>);
+
+    const deleteProduct = (id: number) => {
+        removeProduct({
+            variables:
+                {
+                    id: id
+                }
+        }).then();
+    }
 
     return (
         <div>
@@ -41,7 +64,11 @@ const Product = () => {
                         <td>{value.cod}</td>
                         <td>{value.name}</td>
                         <td>{value.price}</td>
-                        <td>Test</td>
+                        <td>
+                            <Button variant="danger" onClick={() => deleteProduct(value.id)}>
+                                Delete
+                            </Button>
+                        </td>
                     </tr>
                 })}
                 </tbody>

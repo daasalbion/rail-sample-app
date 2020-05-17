@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateProduct < BaseMutation
+  class CreateProduct < Mutations::BaseMutation
     argument :product_input, Types::ProductInput, required: true
+    # return
+    field :errors, [String], null: false
     type Types::ProductType
 
     def resolve(product_input:)

@@ -1,15 +1,14 @@
 import * as React from 'react'
-import {useMutation, useQuery} from '@apollo/react-hooks';
+import {useMutation} from '@apollo/react-hooks';
 import {gql} from "apollo-boost";
 import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 
 const CREATE_PRODUCT = gql`
-    mutation($cod: String!, $name: String!, $price:Int!) {
+    mutation($cod: String!, $name: String!, $price: Int!) {
         createProduct(input: {productInput: {
             cod: $cod, name: $name, price: $price
         }}) {
@@ -25,24 +24,31 @@ const initialState = {
     price: 0
 };
 
-const CreateProduct = () => {
+interface ProductProps {
+    cod: string;
+    name: string;
+    price: number;
+}
 
+const CreateProduct = () => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [addProduct, _] = useMutation(CREATE_PRODUCT);
-    const [product, setProduct] = useState(initialState);
+    const [product, setProduct] = useState<ProductProps>(initialState);
 
     const createProduct = () => {
-        console.log('product', product);
-        addProduct({ variables:
+        addProduct({
+            variables:
                 {
                     cod: product.cod,
                     name: product.name,
                     price: product.price
-                } }).then();
+                }
+        }).then();
     }
 
     const handleSubmit = (event) => {
+        console.log('handleSubmit', product);
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -66,7 +72,6 @@ const CreateProduct = () => {
             <Button variant="primary" onClick={handleShow}>
                 Create
             </Button>
-
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create Product</Modal.Title>
@@ -101,23 +106,16 @@ const CreateProduct = () => {
                             <Form.Group as={Col} md="6" controlId="validationCustom03">
                                 <Form.Label>Price</Form.Label>
                                 <Form.Control
-                                              required
-                                              type="number"
-                                              placeholder="Price"
-                                              value={product.price}
-                                              onChange={handleChange('price')}
+                                    required
+                                    type="number"
+                                    placeholder="Price"
+                                    value={product.price}
+                                    onChange={handleChange('price')}
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a valid city.
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            {/*<Form.Group as={Col} md="6" controlId="validationCustom04">
-                                <Form.Label>State</Form.Label>
-                                <Form.Control type="text" placeholder="State" required />
-                                <Form.Control.Feedback type="invalid">
-                                    Please provide a valid state.
-                                </Form.Control.Feedback>
-                            </Form.Group>*/}
                         </Form.Row>
                         <Button type="submit">Submit form</Button>
                     </Form>
@@ -126,7 +124,7 @@ const CreateProduct = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary"  onClick={handleClose}>
+                    <Button variant="primary" onClick={handleClose}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
