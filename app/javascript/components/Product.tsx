@@ -2,6 +2,7 @@ import * as React from 'react'
 import {useQuery} from '@apollo/react-hooks';
 import {gql} from "apollo-boost";
 import Table from "react-bootstrap/Table";
+import CreateProduct from "./Product/CreateProduct";
 
 const GET_PRODUCTS = gql`
     {
@@ -17,21 +18,23 @@ const GET_PRODUCTS = gql`
 const Product = () => {
     const {loading, error, data} = useQuery(GET_PRODUCTS);
 
-    if (loading) return  (<div>Loading...</div>);
+    if (loading) return (<div>Loading...</div>);
     if (error) return (<div>Sin datos</div>);
 
     return (
-        <Table striped bordered hover>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Cod</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div>
+            <CreateProduct/>
+            <Table striped bordered hover>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cod</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
                 {data.products.map((value) => {
                     return <tr key={value.id}>
                         <td>{value.id}</td>
@@ -41,8 +44,9 @@ const Product = () => {
                         <td>Test</td>
                     </tr>
                 })}
-            </tbody>
-        </Table>
+                </tbody>
+            </Table>
+        </div>
     );
 };
 
