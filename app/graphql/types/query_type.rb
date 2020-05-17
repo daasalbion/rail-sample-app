@@ -10,8 +10,8 @@ module Types
     field :clients, [Types::ClientType], null: false, description: 'List of clients'
 
     def products
-      ::Product.all
-      end
+      Product.order('id DESC').all
+    end
 
     def clients
       ::Client.all

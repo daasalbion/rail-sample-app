@@ -1,22 +1,9 @@
 import * as React from 'react'
-import {useMutation} from '@apollo/react-hooks';
-import {gql} from "apollo-boost";
 import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-
-const CREATE_PRODUCT = gql`
-    mutation($cod: String!, $name: String!, $price: Int!) {
-        createProduct(input: {productInput: {
-            cod: $cod, name: $name, price: $price
-        }}) {
-            id,
-            name
-        }
-    }
-`;
 
 const initialState = {
   cod: '',
@@ -30,31 +17,32 @@ interface ProductProps {
   price: number;
 }
 
-const CreateProduct = () => {
+const CreateProduct = (props: { addProduct }) => {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [addProduct] = useMutation(CREATE_PRODUCT);
+
   const [product, setProduct] = useState<ProductProps>(initialState);
 
   const createProduct = () => {
-    addProduct({
+    props.addProduct({
       variables:
         {
           cod: product.cod,
           name: product.name,
           price: product.price
         }
-    }).then();
+    }).then(() => setProduct(initialState));
   };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     }
-    createProduct();
     setValidated(true);
+    createProduct();
+    handleClose();
+    event.preventDefault();
   };
 
   const handleChange = (name: string) => (event: any) => {
@@ -123,7 +111,7 @@ const CreateProduct = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>
