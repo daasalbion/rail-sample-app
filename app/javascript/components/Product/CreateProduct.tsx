@@ -33,7 +33,7 @@ interface ProductProps {
 const CreateProduct = () => {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [addProduct, _] = useMutation(CREATE_PRODUCT);
+  const [addProduct] = useMutation(CREATE_PRODUCT);
   const [product, setProduct] = useState<ProductProps>(initialState);
 
   const createProduct = () => {
@@ -45,10 +45,9 @@ const CreateProduct = () => {
           price: product.price
         }
     }).then();
-  }
+  };
 
   const handleSubmit = (event) => {
-    console.log('handleSubmit', product);
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();

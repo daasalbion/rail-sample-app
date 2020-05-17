@@ -34,6 +34,8 @@ const Product = () => {
   if (loading) return (<div>Loading...</div>);
   if (error) return (<div>No data</div>);
 
+  console.log('products', data.products);
+
   const deleteProduct = (id: number) => {
     removeProduct({
       variables:

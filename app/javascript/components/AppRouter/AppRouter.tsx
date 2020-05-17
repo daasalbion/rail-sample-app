@@ -14,12 +14,12 @@ const AppRouter = () => {
           <Nav.Link href="/home">Active</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/client" eventKey="link-1">
+          <Nav.Link as={Link} to="/client" eventKey="link-1">
             Client
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/product" eventKey="link-2">
+          <Nav.Link as={Link} to="/product" eventKey="link-2">
             Product
           </Nav.Link>
         </Nav.Item>
