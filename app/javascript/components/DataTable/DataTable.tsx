@@ -3,20 +3,24 @@ import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-interface DataTableProps<T> {
-  headers: string[];
+interface Header {
+  name: string;
+  field?: string
+}
+
+interface DataTableProps {
+  headers: Header[];
   loading: boolean;
-  data: T[];
+  data: any[];
   delete?: (id: number) => void
 }
 
-const DataTable = (props: DataTableProps<any>) => {
-  console.log('mirar', props);
+const DataTable = (props: DataTableProps) => {
   return (
     <Table striped bordered hover>
       <thead>
       <tr>
-        {props.headers.map((value) => (<th>{value}</th>))}
+        {props.headers.map((value, index) => (<th key={index}>{value.name}</th>))}
       </tr>
       </thead>
       <tbody>
@@ -30,17 +34,19 @@ const DataTable = (props: DataTableProps<any>) => {
             </tr>) :
           props.data.map((value) => {
             return (
-              <tr key={value.id}>
-                {Object.keys(value)
-                  .filter(value => value !== '__typename')
-                  .map((key) => (<td>{value[key]}</td>))}
+              <tr key={value['id']}>
+                {
+                  props.headers
+                    .filter(header => (header.field))
+                    .map(({name, field}) => (<td key={name}>{value[field]}</td>))
+                }
                 {
                   (props.delete) ?
-                    (<td>
-                      <Button variant="danger" onClick={() => props.delete(value.id)}>
-                        Delete
-                      </Button>
-                    </td>) : (<td/>)
+                  (<td>
+                    <Button variant="danger" onClick={() => props.delete(value.id)}>
+                      Delete
+                    </Button>
+                  </td>) : (<td />)
                 }
               </tr>)
           })

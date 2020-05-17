@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import CreateProduct from "./Product/CreateProduct";
 import Button from "react-bootstrap/Button";
 import gql from 'graphql-tag';
+import DataTable from "./DataTable/DataTable";
 
 const GET_PRODUCTS = gql`
     {
@@ -41,6 +42,14 @@ const DELETE_PRODUCT = gql`
     }
 `;
 
+const PRODUCT_HEADERS = [
+  {name: '#', field: 'id'},
+  {name: 'Cod', field: 'cod'},
+  {name: 'Name', field: 'name'},
+  {name: 'Price', field: 'price'},
+  {name: 'Actions'}
+];
+
 const Product = () => {
   const [addProduct] = useMutation(CREATE_PRODUCT, {
     update(cache, {data: {createProduct}}) {
@@ -76,42 +85,7 @@ const Product = () => {
       {({data, loading}) => (
         <div>
           <CreateProduct addProduct={addProduct}/>
-          <Table striped bordered hover>
-            <thead>
-            <tr>
-              <th>#</th>
-              <th>Cod</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {loading ?
-              <tr>
-                <td colSpan={5}>Loading...</td>
-              </tr>
-              : (data.products.length == 0) ? (
-                  <tr>
-                    <td colSpan={5}>No data found</td>
-                  </tr>) :
-                data.products.map((value) => {
-                  return (
-                    <tr key={value.id}>
-                      <td>{value.id}</td>
-                      <td>{value.cod}</td>
-                      <td>{value.name}</td>
-                      <td>{value.price}</td>
-                      <td>
-                        <Button variant="danger" onClick={() => deleteProduct(value.id)}>
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>)
-                })
-            }
-            </tbody>
-          </Table>
+          <DataTable headers={PRODUCT_HEADERS} loading={loading} data={data && data.products} delete={deleteProduct}/>
         </div>
       )}
     </Query>

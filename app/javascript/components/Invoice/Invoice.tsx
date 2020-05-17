@@ -1,8 +1,6 @@
 import * as React from 'react'
 import {useMutation} from '@apollo/react-hooks';
 import {Query} from 'react-apollo';
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
 import gql from 'graphql-tag';
 import DataTable from "../DataTable/DataTable";
 
@@ -40,6 +38,13 @@ const DELETE_PRODUCT = gql`
     }
 `;
 
+const headers = [
+  {name: '#', field: 'id'},
+  {name: 'Number', field: 'invoicenumber'},
+  {name: 'Total', field: 'total'},
+  {name: 'Actions'}
+];
+
 const Invoice = () => {
   const [addProduct] = useMutation(CREATE_PRODUCT, {
     update(cache, {data: {createProduct}}) {
@@ -75,7 +80,7 @@ const Invoice = () => {
       {({data, loading}) => (
         <div>
           <DataTable data={data && data.invoices}
-                     headers={['#', 'Total', 'Number', 'Actions']}
+                     headers={headers}
                      loading={loading}/>
         </div>
       )}
