@@ -89,22 +89,26 @@ const Product = () => {
             <tbody>
             {loading ?
               <tr>
-                <td colSpan={5}>'loading...'</td>
+                <td colSpan={5}>Loading...</td>
               </tr>
-              : data.products.map((value) => {
-                return (
-                  <tr key={value.id}>
-                    <td>{value.id}</td>
-                    <td>{value.cod}</td>
-                    <td>{value.name}</td>
-                    <td>{value.price}</td>
-                    <td>
-                      <Button variant="danger" onClick={() => deleteProduct(value.id)}>
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>)
-              })
+              : (data.products.length == 0) ? (
+                  <tr>
+                    <td colSpan={5}>No data found</td>
+                  </tr>) :
+                data.products.map((value) => {
+                  return (
+                    <tr key={value.id}>
+                      <td>{value.id}</td>
+                      <td>{value.cod}</td>
+                      <td>{value.name}</td>
+                      <td>{value.price}</td>
+                      <td>
+                        <Button variant="danger" onClick={() => deleteProduct(value.id)}>
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>)
+                })
             }
             </tbody>
           </Table>

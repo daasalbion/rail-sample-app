@@ -8,19 +8,18 @@ import Form from "react-bootstrap/Form";
 const initialState = {
   cod: '',
   name: '',
-  price: 0
+  price: '0'
 };
 
 interface ProductProps {
   cod: string;
   name: string;
-  price: number;
+  price: string;
 }
 
 const CreateProduct = (props: { addProduct }) => {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
-
   const [product, setProduct] = useState<ProductProps>(initialState);
 
   const createProduct = () => {
@@ -29,7 +28,7 @@ const CreateProduct = (props: { addProduct }) => {
         {
           cod: product.cod,
           name: product.name,
-          price: product.price
+          price: parseInt(product.price)
         }
     }).then(() => setProduct(initialState));
   };
