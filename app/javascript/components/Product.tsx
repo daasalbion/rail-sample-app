@@ -1,9 +1,7 @@
 import * as React from 'react'
 import {useMutation} from '@apollo/react-hooks';
 import {Query} from 'react-apollo';
-import Table from "react-bootstrap/Table";
 import CreateProduct from "./Product/CreateProduct";
-import Button from "react-bootstrap/Button";
 import gql from 'graphql-tag';
 import DataTable from "./DataTable/DataTable";
 
@@ -56,7 +54,7 @@ const Product = () => {
       const {products} = cache.readQuery({query: GET_PRODUCTS});
       cache.writeQuery({
         query: GET_PRODUCTS,
-        data: {products: products.concat([createProduct])},
+        data: {products: products.concat([createProduct]).sort((a, b) => b.id - a.id)}
       });
     }
   });
@@ -85,7 +83,10 @@ const Product = () => {
       {({data, loading}) => (
         <div>
           <CreateProduct addProduct={addProduct}/>
-          <DataTable headers={PRODUCT_HEADERS} loading={loading} data={data && data.products} delete={deleteProduct}/>
+          <DataTable headers={PRODUCT_HEADERS}
+                     data={data && data.products}
+                     loading={loading}
+                     delete={deleteProduct}/>
         </div>
       )}
     </Query>

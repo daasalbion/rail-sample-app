@@ -37,10 +37,11 @@ const CreateProduct = (props: { addProduct }) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
+    } else {
+      setValidated(true);
+      createProduct();
+      handleClose();
     }
-    setValidated(true);
-    createProduct();
-    handleClose();
     event.preventDefault();
   };
 
@@ -103,17 +104,17 @@ const CreateProduct = (props: { addProduct }) => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
-            <Button type="submit">Submit form</Button>
+            <Button type="submit">Create</Button>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
+        {/*<Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
             Save Changes
           </Button>
-        </Modal.Footer>
+        </Modal.Footer>*/}
       </Modal>
     </>
   );

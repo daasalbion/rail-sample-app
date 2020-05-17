@@ -38,7 +38,7 @@ const DELETE_PRODUCT = gql`
     }
 `;
 
-const headers = [
+const INVOICE_HEADERS = [
   {name: '#', field: 'id'},
   {name: 'Number', field: 'invoicenumber'},
   {name: 'Total', field: 'total'},
@@ -79,8 +79,8 @@ const Invoice = () => {
     <Query query={GET_INVOICES}>
       {({data, loading}) => (
         <div>
-          <DataTable data={data && data.invoices}
-                     headers={headers}
+          <DataTable headers={INVOICE_HEADERS}
+                     data={data && data.invoices}
                      loading={loading}/>
         </div>
       )}
